@@ -1601,7 +1601,7 @@ class ConnectedBLEDevice : ConnectedDevice, CBPeripheralDelegate {
             print("Can't dequeue empty queue - return")
             return
         }
-        try{
+        do {
         let messageBytes = outboundMessageQueue.removeFirst()
         peripheral.writeValue(messageBytes, for: characteristic!, type: writeType)
         }
