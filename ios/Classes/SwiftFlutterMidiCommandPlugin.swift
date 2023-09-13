@@ -1602,8 +1602,8 @@ class ConnectedBLEDevice : ConnectedDevice, CBPeripheralDelegate {
             return
         }
         do {
-        let messageBytes = outboundMessageQueue.removeFirst()
-        peripheral.writeValue(messageBytes, for: characteristic!, type: writeType)
+            let messageBytes = try outboundMessageQueue.removeFirst()
+            peripheral.writeValue(messageBytes, for: characteristic!, type: writeType)
         }
         catch (e: Exception) {
             return;
