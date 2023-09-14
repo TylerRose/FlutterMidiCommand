@@ -1596,15 +1596,15 @@ class ConnectedBLEDevice : ConnectedDevice, CBPeripheralDelegate {
         }
     }
 
+    let serialQueue = DispatchQueue(label: "dequeueMidiBytes")
     func dequeueMidiBytes() {
-        if (outboundMessageQueue.isEmpty) {
-            print("Can't dequeue empty queue - return")
-            return
-        }
-        let messageBytes = guard outboundMessageQueue.removeFirst() else { return }
-        peripheral.writeValue(messageBytes, for: characteristic!, type: writeType)
-        catch (e: Exception) {
-            return;
+        serialQueue.sync {
+            guard !outboundMessageQueue.isEmpty else {
+                        print("Can't dequeue empty queue - return")
+                        return
+                    }
+            let messageBytes = outboundMessageQueue.removeFirst()
+            peripheral.writeValue(messageBytes, for: characteristic!, type: writeType)
         }
     }
 
