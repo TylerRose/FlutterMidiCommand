@@ -1596,6 +1596,7 @@ class ConnectedBLEDevice : ConnectedDevice, CBPeripheralDelegate {
         }
     }
 
+    // Make sure this method occurs synchronously
     let serialQueue = DispatchQueue(label: "dequeueMidiBytes")
     func dequeueMidiBytes() {
         serialQueue.sync {
